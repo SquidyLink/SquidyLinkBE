@@ -40,7 +40,7 @@ An SQL database browser is available at [http://localhost:8001/](http://localhos
 To create the initial database tables, you will need to run the alembic migrations, like so:
 
 ```bash
-sudo docker exec -it squidlink-app .venv/bin/alembic -c squidlink/database/alembic.ini upgrade head
+sudo docker exec -w /app/squidlink/database -it squidlink-app /app/.venv/bin/alembic upgrade head
 ```
 
 If you want to reset your database, shutdown the docker containers, delete the `.data` volume, and start the containers again.
@@ -50,5 +50,5 @@ You will need to run the migrations again:
 sudo docker-compose down
 sudo rm -rf .data
 sudo docker-compose up --build --force-recreate --remove-orphans
-sudo docker exec -it squidlink-app .venv/bin/alembic -c squidlink/database/alembic.ini upgrade head
+sudo docker exec -w /app/squidlink/database -it squidlink-app /app/.venv/bin/alembic upgrade head
 ```
