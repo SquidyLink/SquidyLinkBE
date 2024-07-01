@@ -1,8 +1,8 @@
-"""create facilities table
+"""create a contractors table
 
-Revision ID: 25162b263575
-Revises:
-Create Date: 2024-07-01 16:08:45.998651
+Revision ID: 3cf5000a00f0
+Revises: 25162b263575
+Create Date: 2024-07-01 17:02:14.314593
 
 """
 from typing import Sequence, Union
@@ -12,14 +12,14 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '25162b263575'
-down_revision: Union[str, None] = None
+revision: str = '3cf5000a00f0'
+down_revision: Union[str, None] = '25162b263575'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    op.create_table('projects',
+    op.create_table('contractors',
         sa.Column('id', sa.Integer(), nullable=False),
         sa.Column('name', sa.String(), nullable=True),
         sa.Column('address_line_1', sa.String(), nullable=True),
@@ -36,16 +36,16 @@ def upgrade() -> None:
         sa.PrimaryKeyConstraint('id')
     )
 
-    op.create_table('project_skills',
-        sa.Column('project_id', sa.Integer(), nullable=False),
+    op.create_table('contractor_skills',
+        sa.Column('contractor_id', sa.Integer(), nullable=False),
         sa.Column('skill_id', sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(['project_id'], ['projects.id'], ),
+        sa.ForeignKeyConstraint(['contractor_id'], ['contractors.id'], ),
         sa.ForeignKeyConstraint(['skill_id'], ['skills.id'], ),
-        sa.PrimaryKeyConstraint('project_id', 'skill_id')
+        sa.PrimaryKeyConstraint('contractor_id', 'skill_id')
     )
 
 
 def downgrade() -> None:
-    op.drop_table('project_skills')
+    op.drop_table('contractor_skills')
     op.drop_table('skills')
-    op.drop_table('projects')
+    op.drop_table('contractors')
