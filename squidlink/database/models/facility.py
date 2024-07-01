@@ -34,3 +34,4 @@ class Facility(Base):
     floor_area_square_metres = Column(Integer)
 
     meter_readings = relationship("MeterReading", back_populates="facility")
+    projects = relationship("Project", back_populates="facility")

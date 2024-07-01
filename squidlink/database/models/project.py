@@ -1,6 +1,8 @@
 from sqlalchemy import Column, Integer, String, Table, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, mapped_column
+
 from squidlink.database.database import Base
+from squidlink.database.models.facility import Facility
 
 # Association table for the many-to-many relationship between projects and skills
 project_skills_association = Table(
@@ -15,6 +17,10 @@ class Project(Base):
 
     id = Column(Integer, nullable=False, primary_key=True)
     skills = relationship('Skill', secondary=project_skills_association, back_populates='projects')
+
+    facility_id = mapped_column(ForeignKey("facilities.id", ondelete="CASCADE"), nullable=False)
+    facility = relationship(Facility, back_populates="projects")
+
 
 class Skill(Base):
     """SQL data model for a Skill."""

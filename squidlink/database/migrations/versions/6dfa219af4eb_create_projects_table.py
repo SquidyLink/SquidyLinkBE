@@ -1,4 +1,4 @@
-"""create a project table
+"""create projects table
 
 Revision ID: 6dfa219af4eb
 Revises: b9bc9f72ad42
@@ -19,7 +19,11 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    pass
+    op.create_table(
+        'projects',
+        sa.Column('id', sa.Integer, primary_key=True, nullable=False),
+        sa.Column('facility_id', sa.Integer, sa.ForeignKey('facilities.id', ondelete='CASCADE'), nullable=False),
+    )
 
 
 def downgrade() -> None:
