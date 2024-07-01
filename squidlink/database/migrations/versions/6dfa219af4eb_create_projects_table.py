@@ -25,6 +25,14 @@ def upgrade() -> None:
         sa.Column('facility_id', sa.Integer, sa.ForeignKey('facilities.id', ondelete='CASCADE'), nullable=False),
     )
 
+    op.create_table('projects_skills',
+        sa.Column('project_id', sa.Integer(), nullable=False),
+        sa.Column('skill_id', sa.Integer(), nullable=False),
+        sa.ForeignKeyConstraint(['project_id'], ['projects.id'], ),
+        sa.ForeignKeyConstraint(['skill_id'], ['skills.id'], ),
+        sa.PrimaryKeyConstraint('project_id', 'skill_id')
+    )
+
 
 def downgrade() -> None:
     pass
