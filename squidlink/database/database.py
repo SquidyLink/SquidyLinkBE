@@ -1,6 +1,7 @@
 from os import getenv as e
 
-from sqlalchemy import sessionmaker, create_engine
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 db_host = e("POSTGRES_HOST")
