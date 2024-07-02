@@ -66,7 +66,7 @@ def create_avg_consumption_and_carbon_intensity_chart(
         ),
         legend=dict(orientation="h", y=-0.2),
     )
-    return fig.to_html()
+    return fig.to_html(full_html=False)
 
 
 def create_avg_daily_consumption_chart(hh_dataf: pd.DataFrame) -> str:
@@ -93,7 +93,7 @@ def create_avg_daily_consumption_chart(hh_dataf: pd.DataFrame) -> str:
             t=30,  #top margin
         ),
     )
-    return fig.to_html()
+    return fig.to_html(full_html=False)
 
 
 def create_overall_chart(dataf: pd.DataFrame) -> str:
@@ -133,7 +133,7 @@ def create_overall_chart(dataf: pd.DataFrame) -> str:
                       yaxis_title='Electricity consumption (kWh)',
                       legend_title='Resample Frequency',
                       template='plotly')
-    return fig.to_html()
+    return fig.to_html(full_html=False)
 
 
 def get_peak_electricity_import(hh_dataf: pd.DataFrame) -> float:

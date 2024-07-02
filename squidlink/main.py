@@ -91,22 +91,22 @@ def read_skills(skill_id: int, db: Session = Depends(get_db)) -> models.ReadSkil
     return skill
 
 
-@app.get("/project/{project_id}/avg-elec-data")
-def read_project_avg_elec(project_id: int, db: Session = Depends(get_db)) -> str:
-    """Retrieve a plot for a project."""
-    viz = FacilityViz(db, project_id)
+@app.get("/facility/{facility_id}/avg-elec-data")
+def read_facility_avg_elec(facility_id: int) -> str:
+    """Retrieve a plot for a facility."""
+    viz = FacilityViz(facility_id)
     return viz.viz_avg_elec_data()
 
 
-@app.get("/project/{project_id}/avg-elec-and-carbon-data")
-def read_project_avg_elec_and_carbon(project_id: int, db: Session = Depends(get_db)) -> str:
-    """Retrieve a plot for a project."""
-    viz = FacilityViz(db, project_id)
+@app.get("/facility/{facility_id}/avg-elec-and-carbon-data")
+def read_facility_avg_elec_and_carbon(facility_id: int) -> str:
+    """Retrieve a plot for a facility."""
+    viz = FacilityViz(facility_id)
     return viz.viz_avg_elec_and_carbon_data()
 
 
-@app.get("/project/{project_id}/overall-chart")
-def read_project_overall(project_id: int, db: Session = Depends(get_db)) -> str:
-    """Retrieve a plot for a project."""
-    viz = FacilityViz(db, project_id)
+@app.get("/facility/{facility_id}/overall-chart")
+def read_facility_overall(facility_id: int) -> str:
+    """Retrieve a plot for a facility."""
+    viz = FacilityViz(facility_id)
     return viz.viz_overall_chart()

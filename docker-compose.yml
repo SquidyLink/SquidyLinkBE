@@ -16,6 +16,7 @@ services:
     volumes:
       - ./docker/Caddyfile:/app/Caddyfile:ro
       - ./squidlink:/app/squidlink:ro
+      - ./data_csv:/app/csv:ro
 
   squidlink-db:
     container_name: squidlink-db

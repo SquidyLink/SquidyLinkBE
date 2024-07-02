@@ -1,10 +1,10 @@
 import pandas as pd
-from plots import viz_class
+from squidlink.plots import viz_class
 
 
 def load_facility_hh_data(facility_id: int) -> pd.DataFrame:
     """Load half-hourly data for a facility."""
-    dummy_dataf = pd.read_csv(r"data_csv/dummy_data.csv", index_col=0)
+    dummy_dataf = pd.read_csv(r"/app/csv/dummy_data.csv", index_col=0)
     dummy_dataf.index = pd.to_datetime(dummy_dataf.index)
     col_index = facility_id % len(dummy_dataf.columns)
     print(col_index, len(dummy_dataf.columns))

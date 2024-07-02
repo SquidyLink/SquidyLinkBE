@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
 import pandas as pd
 
-from plots import functions
-import utils
+from squidlink.plots import functions
+from squidlink import utils
 
 
 @dataclass
