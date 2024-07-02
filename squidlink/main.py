@@ -1,14 +1,21 @@
 """Main module for the SquidLink API."""
 
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from squidlink import models
 from squidlink.database.database import get_db
-from squidlink.database import models as db_models
 from squidlink.database import queries
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.get("/projects")
