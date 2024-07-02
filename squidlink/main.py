@@ -1,8 +1,68 @@
-from fastapi import FastAPI
+"""Main module for the SquidLink API."""
+
+from fastapi import Depends, FastAPI, HTTPException
+from sqlalchemy.orm import Session
+
+from squidlink import models
+from squidlink.database.database import get_db
+from squidlink.database import models as db_models
+from squidlink.database import queries
 
 app = FastAPI()
 
 
-@app.get("/")
-def test():
-    return {"Hello": "World"}
+@app.get("/projects")
+def read_projects(db: Session = Depends(get_db)) -> list[models.ReadProject]:
+    """Retrieve all projects."""
+    return queries.get_projects(db)
+
+
+@app.post("/project")
+def create_project(project: models.WriteProject, db: Session = Depends(get_db)) -> models.ReadProject:
+    """Creates a new Project."""
+    return queries.create_project(db, project)
+
+
+@app.get("/facility/{facility_id}")
+def read_facility(facility_id: int, db: Session = Depends(get_db)) -> models.ReadFacility:
+    """Retrieve a facility by ID."""
+    facility = queries.get_facility(db, facility_id)
+    if not facility:
+        raise HTTPException(404)
+    return facility
+
+
+@app.post("/facility")
+def create_facility(facility: models.WriteFacility, db: Session = Depends(get_db)) -> models.ReadFacility:
+    """Create a new facility."""
+    return queries.create_facility(db, facility)
+
+
+@app.get("/contractor/{contractor_id}")
+def read_contractor(contractor_id: int, db: Session = Depends(get_db)) -> models.ReadContractor:
+    """Retrieve a contractor by ID."""
+    contractor = queries.get_contractor(db, contractor_id)
+    if not contractor:
+        raise HTTPException(404)
+    return contractor
+
+
+@app.post("/contractor")
+def create_contractor(contractor: models.WriteContractor, db: Session = Depends(get_db)) -> models.ReadContractor:
+    """Create a new contractor."""
+    return queries.create_contractor(db, contractor)
+
+
+@app.get("/bids/{project_id}")
+def read_bids(project_id: int, db: Session = Depends(get_db)) -> list[models.ReadBid]:
+    """Retrieve all bids for a project."""
+    bids = queries.get_bids(db, project_id)
+    if bids is None:
+        raise HTTPException(404)
+    return bids
+
+
+@app.post("/bid")
+def create_bid(bid: models.WriteBid, db: Session = Depends(get_db)) -> models.ReadBid:
+    """Create a new bid for a project."""
+    return queries.create_bid(db, bid)
