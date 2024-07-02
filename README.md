@@ -52,3 +52,9 @@ sudo rm -rf .data
 sudo docker-compose up --build --force-recreate --remove-orphans
 sudo docker exec -w /app/squidlink/database -it squidlink-app /app/.venv/bin/alembic upgrade head
 ```
+
+## Documentation
+
+Data model:
+
+![Data model](./docs/assets/diagrams/data-model.webp)
