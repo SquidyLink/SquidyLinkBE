@@ -1,14 +1,19 @@
 import pandas as pd
-from pathlib import Path
+from plots import viz_class
 
 
 def load_facility_hh_data(facility_id: int) -> pd.DataFrame:
     """Load half-hourly data for a facility."""
     dummy_dataf = pd.read_csv(r"data_csv/dummy_data.csv", index_col=0)
+    dummy_dataf.index = pd.to_datetime(dummy_dataf.index)
     col_index = facility_id % len(dummy_dataf.columns)
     print(col_index, len(dummy_dataf.columns))
-    return dummy_dataf.iloc[:, col_index]
+    temp_dataf = dummy_dataf.iloc[:, col_index].to_frame()
+    temp_dataf.columns = ['Electricity consumption (kWh)']
+    return temp_dataf
 
 
 if __name__ == "__main__":
-    print(load_facility_hh_data(1))
+    facility = viz_class.Facility(1)
+    print(facility.viz_avg_elec_data())
+    # print(load_facility_hh_data(1))
