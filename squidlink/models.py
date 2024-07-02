@@ -76,6 +76,8 @@ class WriteContractor(BaseModel):
     address_city: str | None
     address_country: str | None
 
+    skills: list[int]
+
     class Config:
         orm_mode = True
 
@@ -95,6 +97,8 @@ class WriteProject(BaseModel):
     """Pydantic model for writing a Project."""
     name: str
     facility_id: int
+
+    skills: list[int]
 
     class Config:
         orm_mode = True
@@ -142,6 +146,14 @@ class ReadMeterReading(BaseModel):
 
     interval_start: datetime
     interval_end: datetime
+
+    class Config:
+        orm_mode = True
+
+
+class ReadSkill(BaseModel):
+    id: int
+    name: str
 
     class Config:
         orm_mode = True

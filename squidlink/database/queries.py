@@ -10,10 +10,14 @@ def get_projects(db: Session) -> list[db_models.Project]:
 
 
 def create_project(db: Session, project_data: models.WriteProject) -> models.ReadProject:
+    skills = [
+        db.query(db_models.Skill).get(skill_id) for skill_id in project_data.skills
+    ]
     project = db_models.Project(
         name=project_data.name,
         facility_id=project_data.facility_id,
     )
+    project.skills = skills
     db.add(project)
     db.commit()
     db.refresh(project)
@@ -47,6 +51,9 @@ def get_contractor(db: Session, contractor_id: int) -> models.ReadContractor | N
 
 
 def create_contractor(db: Session, contractor_data: models.WriteContractor) -> models.ReadContractor:
+    skills = [
+        db.query(db_models.Skill).get(skill_id) for skill_id in contractor_data.skills
+    ]
     contractor = db_models.Contractor(
         name=contractor_data.name,
         address_line_1=contractor_data.address_line_1,
@@ -55,6 +62,7 @@ def create_contractor(db: Session, contractor_data: models.WriteContractor) -> m
         address_city=contractor_data.address_city,
         address_country=contractor_data.address_country,
     )
+    contractor.skills = skills
     db.add(contractor)
     db.commit()
     db.refresh(contractor)
@@ -88,3 +96,12 @@ def get_meter_readings(db: Session, facility_id: int) -> list[models.ReadMeterRe
     if not facility:
         return None
     return db.query(db_models.MeterReading).filter(db_models.MeterReading.facility_id == facility_id).all()
+
+
+def get_skills(db: Session) -> list[models.ReadSkill]:
+    skills = db.query(db_models.Skill).all()
+    return skills
+
+
+def get_skill(skill_id: int, db: Session) -> models.ReadSkill | None:
+    return db.query(db_models.Skill).get(skill_id)

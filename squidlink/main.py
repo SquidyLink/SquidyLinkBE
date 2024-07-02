@@ -73,3 +73,18 @@ def read_bids(project_id: int, db: Session = Depends(get_db)) -> list[models.Rea
 def create_bid(bid: models.WriteBid, db: Session = Depends(get_db)) -> models.ReadBid:
     """Create a new bid for a project."""
     return queries.create_bid(db, bid)
+
+
+@app.get("/skills")
+def read_skills(db: Session = Depends(get_db)) -> list[models.ReadSkill]:
+    """Retrieve all skills."""
+    return queries.get_skills(db)
+
+
+@app.get("/skill/{skill_id}")
+def read_skills(skill_id: int, db: Session = Depends(get_db)) -> models.ReadSkill:
+    """Retrieve a skill by id."""
+    skill = queries.get_skill(skill_id, db)
+    if skill is None:
+        raise HTTPException(404)
+    return skill
