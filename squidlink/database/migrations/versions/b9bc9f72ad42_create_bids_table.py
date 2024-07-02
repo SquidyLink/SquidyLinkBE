@@ -1,4 +1,4 @@
-"""create a bids table
+"""Creates the bids table
 
 Revision ID: b9bc9f72ad42
 Revises: 3cf5000a00f0
@@ -19,11 +19,14 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    op.create_table('bids',
-        sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('price', sa.Integer(), nullable=True),
-        sa.Column('duration', sa.Integer(), nullable=True),
-        sa.Column('site_inspection', sa.Boolean(), nullable=True),
+    op.create_table(
+        'bids',
+        sa.Column('id', sa.Integer(), primary_key=True, nullable=False),
+        sa.Column('contractor_id', sa.Integer, sa.ForeignKey('contractors.id', ondelete='CASCADE'), nullable=False),
+        sa.Column('project_id', sa.Integer, sa.ForeignKey('projects.id', ondelete='CASCADE'), nullable=False),
+        sa.Column('price', sa.Integer(), nullable=False),
+        sa.Column('duration', sa.Integer(), nullable=False),
+        sa.Column('site_inspection', sa.Boolean(), nullable=False),
         sa.Column('estimated_savings', sa.Integer(), nullable=True),
         sa.PrimaryKeyConstraint('id')
     )

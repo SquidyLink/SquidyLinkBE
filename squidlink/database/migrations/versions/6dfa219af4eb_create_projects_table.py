@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision: str = '6dfa219af4eb'
-down_revision: Union[str, None] = 'b9bc9f72ad42'
+down_revision: Union[str, None] = 'd928b7a54348'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
@@ -21,18 +21,11 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         'projects',
-        sa.Column('id', sa.Integer, primary_key=True, nullable=False),
-        sa.Column('facility_id', sa.Integer, sa.ForeignKey('facilities.id', ondelete='CASCADE'), nullable=False),
-    )
-
-    op.create_table('projects_skills',
-        sa.Column('project_id', sa.Integer(), nullable=False),
-        sa.Column('skill_id', sa.Integer(), nullable=False),
-        sa.ForeignKeyConstraint(['project_id'], ['projects.id'], ),
-        sa.ForeignKeyConstraint(['skill_id'], ['skills.id'], ),
-        sa.PrimaryKeyConstraint('project_id', 'skill_id')
+        sa.Column('id', sa.Integer(), primary_key=True, nullable=False),
+        sa.Column('facility_id', sa.Integer(), sa.ForeignKey('facilities.id', ondelete='CASCADE'), nullable=False),
+        sa.Column('name', sa.String(), nullable=False),
     )
 
 
 def downgrade() -> None:
-    pass
+    op.drop_table('projects')

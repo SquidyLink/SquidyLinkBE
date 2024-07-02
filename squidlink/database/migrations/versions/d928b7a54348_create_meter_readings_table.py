@@ -27,7 +27,7 @@ def upgrade():
         sa.Column('consumption', sa.Float, nullable=False),
         sa.Column('unit', sa.Enum('kWh', name='meterreadingunit'), nullable=False),
         sa.Column('interval_start', sa.DateTime, nullable=False),
-        sa.Column('interval_end', sa.DateTime, nullable=False)
+        sa.Column('interval_end', sa.DateTime, nullable=False),
     )
 
 def downgrade():

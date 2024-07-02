@@ -1,6 +1,14 @@
 from enum import Enum
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import (
+    Column,
+    Enum as DbEnum,
+    Integer,
+    String,
+    ForeignKey,
+    Float,
+    DateTime,
+)
 from sqlalchemy.orm import relationship
 
 from squidlink.database.database import Base
@@ -21,7 +29,7 @@ class Facility(Base):
     __tablename__ = "facilities"
 
     id = Column(Integer, nullable=False, primary_key=True)
-    name = Column(String)
+    name = Column(String, nullable=False)
 
     address_line_1 = Column(String)
     address_line_2 = Column(String)
@@ -30,7 +38,7 @@ class Facility(Base):
     address_country = Column(String)
 
     bms = Column(String)
-    sector = Column(Enum(FacilitySector, nullable=False))
+    sector = Column(DbEnum(FacilitySector, nullable=False))
     floor_area_square_metres = Column(Integer)
 
     meter_readings = relationship("MeterReading", back_populates="facility")

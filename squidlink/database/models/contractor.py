@@ -1,11 +1,23 @@
-from sqlalchemy import Column, Integer, String, Table, ForeignKey
+from sqlalchemy import (
+    Column,
+    ForeignKey,
+    Integer,
+    String,
+    Table,
+)
 from sqlalchemy.orm import relationship
+
 from squidlink.database.database import Base
 
-# Association table for the many-to-many relationship between contractors and skills
-contractor_skills_association = Table(
-    'contractor_skills', Base.metadata,
+contractors_skills_pivot = Table(
+    'contractors_skills', Base.metadata,
     Column('contractor_id', Integer, ForeignKey('contractors.id'), primary_key=True),
+    Column('skill_id', Integer, ForeignKey('skills.id'), primary_key=True)
+)
+
+projects_skills_pivot = Table(
+    'projects_skills', Base.metadata,
+    Column('project_id', Integer, ForeignKey('projects.id'), primary_key=True),
     Column('skill_id', Integer, ForeignKey('skills.id'), primary_key=True)
 )
 
@@ -14,14 +26,16 @@ class Contractor(Base):
     __tablename__ = "contractors"
 
     id = Column(Integer, nullable=False, primary_key=True)
-    name = Column(String)
+
+    skills = relationship("Skill", secondary=contractors_skills_pivot, back_populates='contractors')
+    bids = relationship("Bid", back_populates='contractors')
+
+    name = Column(String, nullable=False)
     address_line_1 = Column(String)
     address_line_2 = Column(String)
     address_postcode = Column(String)
     address_city = Column(String)
     address_country = Column(String)
-
-    skills = relationship('Skill', secondary=contractor_skills_association, back_populates='contractors')
 
 class Skill(Base):
     """SQL data model for a Skill."""
@@ -30,5 +44,5 @@ class Skill(Base):
     id = Column(Integer, nullable=False, primary_key=True)
     name = Column(String, nullable=False)
 
-    # Define the relationship to contractors
-    contractors = relationship('Contractor', secondary=contractor_skills_association, back_populates='skills')
+    contractors = relationship('Contractor', secondary=contractors_skills_pivot, back_populates='skills')
+    projects = relationship('Project', secondary=projects_skills_pivot, back_populates='skills')

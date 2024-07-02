@@ -35,7 +35,7 @@ class MeterReading(Base):
 
     id = Column(Integer, nullable=False, primary_key=True)
 
-    facility_id = mapped_column(ForeignKey("facilities.id", ondelete="CASCADE"), nullable=False)
+    facility_id = ForeignKey("facilities.id", ondelete="CASCADE", nullable=False)
     facility = relationship(Facility, back_populates="meter_readings")
 
     type = Column(Enum(MeterReadingType, nullable=False))

@@ -22,7 +22,7 @@ def upgrade():
     op.create_table(
         'facilities',
         sa.Column('id', sa.Integer, primary_key=True, nullable=False),
-        sa.Column('name', sa.String, nullable=True),
+        sa.Column('name', sa.String, nullable=False),
         sa.Column('address_line_1', sa.String, nullable=True),
         sa.Column('address_line_2', sa.String, nullable=True),
         sa.Column('address_postcode', sa.String, nullable=True),
