@@ -91,13 +91,6 @@ def create_bid(db: Session, bid_data: models.WriteBid) -> models.ReadBid:
     return bid
 
 
-def get_meter_readings(db: Session, facility_id: int) -> list[models.ReadMeterReading]:
-    facility = db.query(db_models.Facility).get(facility_id)
-    if not facility:
-        return None
-    return db.query(db_models.MeterReading).filter(db_models.MeterReading.facility_id == facility_id).all()
-
-
 def get_skills(db: Session) -> list[models.ReadSkill]:
     skills = db.query(db_models.Skill).all()
     return skills

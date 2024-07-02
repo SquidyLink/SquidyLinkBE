@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from squidlink import models
 from squidlink.database.database import get_db
 from squidlink.database import queries
+from squidlink.plots.viz_class import Facility as FacilityViz
 
 app = FastAPI()
 app.add_middleware(
@@ -88,3 +89,24 @@ def read_skills(skill_id: int, db: Session = Depends(get_db)) -> models.ReadSkil
     if skill is None:
         raise HTTPException(404)
     return skill
+
+
+@app.get("/project/{project_id}/avg-elec-data")
+def read_project_avg_elec(project_id: int, db: Session = Depends(get_db)) -> str:
+    """Retrieve a plot for a project."""
+    viz = FacilityViz(db, project_id)
+    return viz.viz_avg_elec_data()
+
+
+@app.get("/project/{project_id}/avg-elec-and-carbon-data")
+def read_project_avg_elec_and_carbon(project_id: int, db: Session = Depends(get_db)) -> str:
+    """Retrieve a plot for a project."""
+    viz = FacilityViz(db, project_id)
+    return viz.viz_avg_elec_and_carbon_data()
+
+
+@app.get("/project/{project_id}/overall-chart")
+def read_project_overall(project_id: int, db: Session = Depends(get_db)) -> str:
+    """Retrieve a plot for a project."""
+    viz = FacilityViz(db, project_id)
+    return viz.viz_overall_chart()
