@@ -1,6 +1,13 @@
+from datetime import datetime
+
 from pydantic import BaseModel
 
-from squidlink.database.models import FacilitySector
+from squidlink.database.models import (
+    FacilitySector,
+    MeterReadingType,
+    MeterReadingUnit,
+    MeterReadingDataSource
+)
 
 
 class ReadFacility(BaseModel):
@@ -118,6 +125,23 @@ class WriteBid(BaseModel):
     duration: int
     site_inspection: bool
     estimated_savings: int | None
+
+    class Config:
+        orm_mode = True
+
+
+class ReadMeterReading(BaseModel):
+    id: int
+
+    facility_id: int
+
+    data_source: MeterReadingDataSource
+    type: MeterReadingType
+    consumption: float
+    unit: MeterReadingUnit
+
+    interval_start: datetime
+    interval_end: datetime
 
     class Config:
         orm_mode = True
