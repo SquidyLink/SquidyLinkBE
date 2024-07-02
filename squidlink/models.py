@@ -19,6 +19,7 @@ class ReadFacility(BaseModel):
 
     class Config:
         orm_mode = True
+        from_attributes = True
 
 
 class WriteFacility(BaseModel):
@@ -56,21 +57,6 @@ class ReadContractor(BaseModel):
     address_city: str | None
     address_country: str | None
 
-    skills: list[ReadSkill]
-    bids: list["ReadBid"]
-
-    class Config:
-        orm_mode = True
-
-
-class ReadProject(BaseModel):
-    """Pydantic model for reading a Project."""
-    id: int
-
-    facility_id: int
-    skills: list[ReadSkill]
-    bids: list["ReadBid"]
-
     class Config:
         orm_mode = True
 
@@ -82,6 +68,26 @@ class WriteContractor(BaseModel):
     address_postcode: str | None
     address_city: str | None
     address_country: str | None
+
+    class Config:
+        orm_mode = True
+
+
+class ReadProject(BaseModel):
+    """Pydantic model for reading a Project."""
+    id: int
+    name: str
+
+    facility_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class WriteProject(BaseModel):
+    """Pydantic model for writing a Project."""
+    name: str
+    facility_id: int
 
     class Config:
         orm_mode = True

@@ -29,7 +29,7 @@ def upgrade():
         sa.Column('address_city', sa.String, nullable=True),
         sa.Column('address_country', sa.String, nullable=True),
         sa.Column('bms', sa.String, nullable=True),
-        sa.Column('sector', sa.Enum('Agriculture', 'Commercial', 'Industrial', 'Residential', 'Other', name='facilitysector'), nullable=False),
+        sa.Column('sector', sa.Enum('AGRICULTURE', 'COMMERCIAL', 'INDUSTRIAL', 'RESIDENTIAL', 'OTHER', name='facilitysector'), nullable=False),
         sa.Column('floor_area_square_metres', sa.Integer, nullable=True),
     )
 
@@ -37,9 +37,10 @@ def upgrade():
         'meter_readings',
         sa.Column('id', sa.Integer, primary_key=True, nullable=False),
         sa.Column('facility_id', sa.Integer, sa.ForeignKey('facilities.id', ondelete='CASCADE'), nullable=False),
-        sa.Column('type', sa.Enum('Electricity', 'Gas', name='meterreadingtype'), nullable=False),
+        sa.Column('data_source', sa.Enum('OCTOPUS_API', name='meterreadingdatasource'), nullable=False),
+        sa.Column('type', sa.Enum('ELECTRICITY', 'GAS', name='meterreadingtype'), nullable=False),
         sa.Column('consumption', sa.Float, nullable=False),
-        sa.Column('unit', sa.Enum('kWh', name='meterreadingunit'), nullable=False),
+        sa.Column('unit', sa.Enum('KWH', name='meterreadingunit'), nullable=False),
         sa.Column('interval_start', sa.DateTime, nullable=False),
         sa.Column('interval_end', sa.DateTime, nullable=False),
     )

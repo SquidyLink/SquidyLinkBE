@@ -19,11 +19,11 @@ from squidlink.database.database import Base
 class FacilitySector(Enum):
     """Available facility sectors."""
     # TODO specify
-    AGRICULTURE = "Agriculture"
-    COMMERCIAL = "Commercial"
-    INDUSTRIAL = "Industrial"
-    RESIDENTIAL = "Residential"
-    OTHER = "Other"
+    AGRICULTURE = "AGRICULTURE"
+    COMMERCIAL = "COMMERCIAL"
+    INDUSTRIAL = "INDUSTRIAL"
+    RESIDENTIAL = "RESIDENTIAL"
+    OTHER = "OTHER"
 
 
 class Facility(Base):
@@ -49,18 +49,18 @@ class Facility(Base):
 
 class MeterReadingType(Enum):
     """Available meter reading types."""
-    ELECTRICITY = "Electricity"
-    GAS = "Gas"
+    ELECTRICITY = "ELECTRICITY"
+    GAS = "GAS"
 
 
 class MeterReadingUnit(Enum):
     """Available meter reading units."""
-    KWH = "kWh"
+    KWH = "KWH"
 
 
 class MeterReadingDataSource(Enum):
     """Available meter reading data sources."""
-    OCTOPUS_API = "Octopus API"
+    OCTOPUS_API = "OCTOPUS_API"
 
 
 class MeterReading(Base):
@@ -72,6 +72,7 @@ class MeterReading(Base):
     facility_id = Column(Integer, ForeignKey("facilities.id", ondelete="CASCADE"), nullable=False)
     facility = relationship(Facility, back_populates="meter_readings")
 
+    data_source = Column(DbEnum(MeterReadingDataSource, nullable=False))
     type = Column(DbEnum(MeterReadingType, nullable=False))
     consumption = Column(Float, nullable=False)
     unit = Column(DbEnum(MeterReadingUnit, nullable=False))
